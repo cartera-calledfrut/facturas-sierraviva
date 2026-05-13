@@ -562,7 +562,10 @@ function dlCSV(){
   var lines=[cols.join(';')].concat(S.rows.map(function(r){
     return cols.map(function(c){var v=String(r[c]!=null?r[c]:'');if(v.indexOf(';')>=0||v.indexOf('"')>=0)v='"'+v.replace(/"/g,'""')+'"';return v;}).join(';');
   }));
-  var b=new Blob([lines.join('\r\n')],{type:'text/csv;charset=utf-8;'});
+  var csvStr=lines.join('\r\n');
+  var bytes=new Uint8Array(csvStr.length);
+  for(var bi=0;bi<csvStr.length;bi++){bytes[bi]=csvStr.charCodeAt(bi)&0xff;}
+  var b=new Blob([bytes],{type:'text/csv;charset=windows-1252;'});
 
   var a=document.createElement('a');a.href=URL.createObjectURL(b);
   a.download='NS_'+S.cli.toUpperCase()+'_'+new Date().toISOString().slice(0,10)+'.csv';a.click();
@@ -925,7 +928,10 @@ function genDeg(){
       return v;
     }).join(';');
   }));
-  var b=new Blob([lines.join('\r\n')],{type:'text/csv;charset=utf-8;'});
+  var csvStr=lines.join('\r\n');
+  var bytes=new Uint8Array(csvStr.length);
+  for(var bi=0;bi<csvStr.length;bi++){bytes[bi]=csvStr.charCodeAt(bi)&0xff;}
+  var b=new Blob([bytes],{type:'text/csv;charset=windows-1252;'});
 
   var a=document.createElement('a');a.href=URL.createObjectURL(b);
   a.download='DEG_'+SDEG.cli.toUpperCase()+'_'+dateStr+'.csv';
