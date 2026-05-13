@@ -279,7 +279,9 @@ function handleFile(file){
   var r=new FileReader();
   r.onload=function(e){
     var wb=XLSX.read(new Uint8Array(e.target.result),{type:'array',cellDates:true});
-    var rows=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{defval:null,raw:false});
+    var sheetName=S.cli==='lum'?'SIERRA VIVA':wb.SheetNames[0];
+    var sheet=wb.Sheets[sheetName]||wb.Sheets[wb.SheetNames[0]];
+    var rows=XLSX.utils.sheet_to_json(sheet,{defval:null,raw:false,header:S.cli==='lum'?1:undefined});
     S.raw=S.cli==='exito'?parseExito(rows):S.cli==='olimpica'?parseOlimpica(rows):S.cli==='lum'?parseLum(rows):parseCanaveral(rows);
     if(!S.raw.length){alert('No se encontraron filas validas.');return;}
     document.getElementById('uarea').classList.add('hidden');
@@ -354,26 +356,14 @@ function parseCanaveral(rows){
 function parseLum(rows){
   var result=[];
   rows.forEach(function(row){
-    // Row is an object with keys like __EMPTY, __EMPTY_1 etc or actual values
-    // Get all values as array by position
-    var vals=Object.values(row);
-    // Data rows: col[1]=orden (PO-XXXXXX), col[3]=destino, col[12]=unidades
-    var orden=vals[1],destino=vals[3],unidades=vals[12];
+    var orden=row[1],destino=row[3],unidades=row[12];
     if(!orden||!destino||!unidades)return;
     var ordenStr=String(orden).trim();
     var destinoStr=String(destino).trim();
     if(ordenStr.indexOf('PO-')<0)return;
     var qty=parseInt(unidades);
     if(isNaN(qty)||qty<=0)return;
-    result.push({
-      id:ordenStr,
-      pc:destinoStr,
-      pn:destinoStr,
-      ord:ordenStr,
-      u:'125GR',
-      d:'ZARZAMORA FRESCA 125G',
-      q:qty
-    });
+    result.push({id:ordenStr,pc:destinoStr,pn:destinoStr,ord:ordenStr,u:'125GR',d:'ZARZAMORA FRESCA 125G',q:qty});
   });
   return result;
 }
