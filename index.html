@@ -165,7 +165,22 @@ var MD = {"exito": {"id": 436, "nombre": "ALMACENES \u00c9XITO S.A", "terminos":
 var CD = ["ARMENIA","BARRANQUILLA","BOGOTA D.C.","BUCARAMANGA","CALI","CARTAGENA","ENVIGADO","MANIZALES","MEDELLIN","PEREIRA","SANTA MARTA"];
 var LM='sv_m4', LE='sv_e4', LC='sv_c4';
 
-function gM(){try{var s=localStorage.getItem(LM);if(s)return JSON.parse(s);}catch(e){}return JSON.parse(JSON.stringify(MD));}
+function gM(){
+  try{
+    var s=localStorage.getItem(LM);
+    if(s){
+      var stored=JSON.parse(s);
+      // Merge: add any new clients from MD that aren't in stored
+      var updated=false;
+      Object.keys(MD).forEach(function(k){
+        if(!stored[k]){stored[k]=JSON.parse(JSON.stringify(MD[k]));updated=true;}
+      });
+      if(updated)localStorage.setItem(LM,JSON.stringify(stored));
+      return stored;
+    }
+  }catch(e){}
+  return JSON.parse(JSON.stringify(MD));
+}
 function sM(m){localStorage.setItem(LM,JSON.stringify(m));}
 function gE(){try{var s=localStorage.getItem(LE);if(s)return JSON.parse(s);}catch(e){}return {};}
 function sE(e){localStorage.setItem(LE,JSON.stringify(e));}
