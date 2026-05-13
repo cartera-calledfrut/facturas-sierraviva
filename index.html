@@ -330,8 +330,6 @@ function parseCanaveral(rows){
 }
 function renderCencosudForm(){
   var m=gM(), c=m['cencosud'];
-  var s1=document.getElementById('s1');
-  // Show form panel
   var existing=document.getElementById('cencosud-form-panel');
   if(existing)existing.remove();
   var panel=document.createElement('div');panel.className='panel';panel.id='cencosud-form-panel';
@@ -340,74 +338,85 @@ function renderCencosudForm(){
   ph.appendChild(lbl);panel.appendChild(ph);
   var pb=document.createElement('div');pb.className='pb';
 
-  // Order number fields
-  var row1=document.createElement('div');row1.style.cssText='display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;';
-  var g1=document.createElement('div');
-  var l1=document.createElement('label');l1.style.cssText='font-size:11px;color:var(--t3);display:block;margin-bottom:4px;';l1.textContent='No. Orden cliente (va en orden de compra)';
-  var inp1=document.createElement('input');inp1.className='ti';inp1.id='cenc-orden';inp1.placeholder='ej. 65-889691';
-  g1.appendChild(l1);g1.appendChild(inp1);
-  var g2=document.createElement('div');
-  var l2=document.createElement('label');l2.style.cssText='font-size:11px;color:var(--t3);display:block;margin-bottom:4px;';l2.textContent='ID Externo (debe ser unico en NetSuite)';
-  var inp2=document.createElement('input');inp2.className='ti';inp2.id='cenc-idext';inp2.placeholder='ej. 65-889691-A';
-  g2.appendChild(l2);g2.appendChild(inp2);
-  row1.appendChild(g1);row1.appendChild(g2);pb.appendChild(row1);
+  // Global fill helper
+  var topDiv=document.createElement('div');topDiv.style.cssText='display:flex;gap:10px;align-items:flex-end;margin-bottom:16px;padding:12px 14px;background:var(--sf2);border:1px solid var(--bd);border-radius:var(--r);flex-wrap:wrap;';
+  var tlbl=document.createElement('span');tlbl.style.cssText='font-size:11px;color:var(--t3);align-self:center;white-space:nowrap;';tlbl.textContent='Aplicar a todos:';
+  var gOrd=document.createElement('input');gOrd.className='ti';gOrd.placeholder='No. Orden para todos';gOrd.style.cssText='max-width:180px;font-size:11px;';
+  var fillBtn=document.createElement('button');fillBtn.className='btn bs';fillBtn.style.cssText='font-size:11px;padding:6px 12px;white-space:nowrap;';fillBtn.textContent='Aplicar';
+  fillBtn.addEventListener('click',function(){
+    var v=gOrd.value.trim();
+    if(!v)return;
+    document.querySelectorAll('#cencosud-form-panel input[data-field="ord"]').forEach(function(i){i.value=v;});
+  });
+  var note=document.createElement('span');note.style.cssText='font-size:11px;color:var(--t3);align-self:center;';
+  note.textContent='El ID externo se genera automaticamente (orden-1, orden-2...)';
+  topDiv.appendChild(tlbl);topDiv.appendChild(gOrd);topDiv.appendChild(fillBtn);topDiv.appendChild(note);
+  pb.appendChild(topDiv);
 
-  // Table
-  var note=document.createElement('p');note.style.cssText='font-size:12px;color:var(--t2);margin-bottom:12px;';note.textContent='Ingresa las cantidades por punto. Deja en 0 los que no aplican.';
-  pb.appendChild(note);
   var tw=document.createElement('div');tw.className='tw';
   var tbl=document.createElement('table');
   var thead=document.createElement('thead');var thr=document.createElement('tr');
-  ['Punto de entrega','Ciudad','125GR','250GR'].forEach(function(h){var th=document.createElement('th');th.textContent=h;thr.appendChild(th);});
+  ['Punto de entrega','Ciudad','No. Orden','125GR','250GR'].forEach(function(h){
+    var th=document.createElement('th');th.textContent=h;thr.appendChild(th);
+  });
   thead.appendChild(thr);tbl.appendChild(thead);
   var tbody=document.createElement('tbody');
+
   c.dirs.forEach(function(d,i){
     var tr=document.createElement('tr');tr.style.borderBottom='1px solid var(--bd)';
     var t1=document.createElement('td');t1.style.padding='8px 10px';t1.style.fontSize='12px';t1.textContent=d.etiqueta;
-    var t2=document.createElement('td');t2.style.padding='8px 10px';t2.className='mono';t2.textContent=d.ciudad;
-    var t3=document.createElement('td');t3.style.cssText='padding:8px 10px;width:90px;';
-    var i1=document.createElement('input');i1.className='ti';i1.type='number';i1.min='0';i1.value='0';i1.dataset.dir=i;i1.dataset.u='125GR';i1.style.textAlign='center';
-    t3.appendChild(i1);
-    var t4=document.createElement('td');t4.style.cssText='padding:8px 10px;width:90px;';
-    var i2=document.createElement('input');i2.className='ti';i2.type='number';i2.min='0';i2.value='0';i2.dataset.dir=i;i2.dataset.u='250GR';i2.style.textAlign='center';
-    t4.appendChild(i2);
-    tr.appendChild(t1);tr.appendChild(t2);tr.appendChild(t3);tr.appendChild(t4);
+    var t2=document.createElement('td');t2.style.cssText='padding:8px 10px;font-size:11px;color:var(--t2);white-space:nowrap;';t2.textContent=d.ciudad;
+    var t3=document.createElement('td');t3.style.cssText='padding:8px 6px;min-width:150px;';
+    var iOrd=document.createElement('input');iOrd.className='ti';iOrd.placeholder='No. Orden';
+    iOrd.dataset.dir=i;iOrd.dataset.field='ord';iOrd.style.fontSize='11px;';
+    t3.appendChild(iOrd);
+    var t4=document.createElement('td');t4.style.cssText='padding:8px 6px;width:80px;';
+    var i125=document.createElement('input');i125.className='ti';i125.type='number';i125.min='0';i125.value='0';
+    i125.dataset.dir=i;i125.dataset.u='125GR';i125.style.textAlign='center';
+    t4.appendChild(i125);
+    var t5=document.createElement('td');t5.style.cssText='padding:8px 6px;width:80px;';
+    var i250=document.createElement('input');i250.className='ti';i250.type='number';i250.min='0';i250.value='0';
+    i250.dataset.dir=i;i250.dataset.u='250GR';i250.style.textAlign='center';
+    t5.appendChild(i250);
+    tr.appendChild(t1);tr.appendChild(t2);tr.appendChild(t3);tr.appendChild(t4);tr.appendChild(t5);
     tbody.appendChild(tr);
   });
+
   tbl.appendChild(tbody);tw.appendChild(tbl);pb.appendChild(tw);
 
   var genBtn=document.createElement('button');genBtn.className='btn bp';genBtn.style.marginTop='16px';genBtn.textContent='Generar CSV';
   genBtn.addEventListener('click',function(){
-    var orden=document.getElementById('cenc-orden').value.trim();
-    var idext=document.getElementById('cenc-idext').value.trim();
-    if(!orden||!idext){alert('Ingresa el numero de orden y el ID externo.');return;}
     var m2=gM(),c2=m2['cencosud'];
-    var inputs=document.querySelectorAll('#cencosud-form-panel input[data-dir]');
     S.raw=[];
-    inputs.forEach(function(inp){
-      var qty=parseInt(inp.value)||0;
-      if(qty<=0)return;
-      var dirIdx=parseInt(inp.dataset.dir);
-      var u=inp.dataset.u;
-      var d=c2.dirs[dirIdx];
-      var is250=u==='250GR';
-      S.raw.push({id:idext,pc:String(d.idDir),pn:d.etiqueta,ord:orden,u:u,d:is250?'ZARZAMORA FRESCA 250G':'ZARZAMORA FRESCA 125G',q:qty});
+    var errors=[];
+    var counter=1;
+    var rows=document.querySelectorAll('#cencosud-form-panel tbody tr');
+    rows.forEach(function(tr,i){
+      var q125=parseInt(tr.querySelector('input[data-u="125GR"]').value)||0;
+      var q250=parseInt(tr.querySelector('input[data-u="250GR"]').value)||0;
+      if(q125===0&&q250===0)return;
+      var ordInp=tr.querySelector('input[data-field="ord"]');
+      var orden=ordInp?ordInp.value.trim():'';
+      if(!orden){errors.push(c2.dirs[i].etiqueta);return;}
+      var d=c2.dirs[i];
+      var idExt=orden+'-'+counter;
+      counter++;
+      if(q125>0)S.raw.push({id:idExt,pc:String(d.idDir),pn:d.etiqueta,ord:orden,u:'125GR',d:'ZARZAMORA FRESCA 125G',q:q125});
+      if(q250>0)S.raw.push({id:idExt,pc:String(d.idDir),pn:d.etiqueta,ord:orden,u:'250GR',d:'ZARZAMORA FRESCA 250G',q:q250});
     });
+    if(errors.length){alert('Falta No. Orden en: '+errors.join(', '));return;}
     if(!S.raw.length){alert('Ingresa al menos una cantidad mayor a 0.');return;}
-    S.pts=[];
-    S.eq={};
-    // For cencosud, map directly using dir info (no equivalencias needed)
+    S.pts=[];S.eq={};
     S.raw.forEach(function(r){
-      var dirIdx=parseInt(r.pc);
-      var d=c2.dirs.find(function(x){return String(x.idDir)===String(dirIdx);});
-      if(d) S.eq[r.pn]={idDir:d.idDir,ciudad:d.ciudad,etiqueta:d.etiqueta};
+      var d=c2.dirs.find(function(x){return String(x.idDir)===String(r.pc);});
+      if(d)S.eq[r.pn]={idDir:d.idDir,ciudad:d.ciudad,etiqueta:d.etiqueta};
     });
     genPreview();
   });
   pb.appendChild(genBtn);
   panel.appendChild(pb);
   document.getElementById('pupload').classList.add('hidden');
-  s1.appendChild(panel);
+  document.getElementById('s1').appendChild(panel);
 }
 
 
