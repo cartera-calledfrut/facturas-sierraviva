@@ -353,26 +353,18 @@ function parseCanaveral(rows){
 }
 function parseLum(rows){
   var result=[];
-  // Find header row
-  var headerIdx=-1;
-  rows.forEach(function(row,i){
+  rows.forEach(function(row){
+    // Row is an object with keys like __EMPTY, __EMPTY_1 etc or actual values
+    // Get all values as array by position
     var vals=Object.values(row);
-    var hasOrden=vals.some(function(v){return v&&String(v).trim()==='Orden de Compra';});
-    if(hasOrden)headerIdx=i;
-  });
-  if(headerIdx<0)return result;
-  // Data starts after header
-  for(var i=headerIdx+1;i<rows.length;i++){
-    var row=rows[i];
-    var vals=Object.values(row);
-    // Col 1=orden, col 3=destino, col 10=total articulos, col 12=total unidades
+    // Data rows: col[1]=orden (PO-XXXXXX), col[3]=destino, col[12]=unidades
     var orden=vals[1],destino=vals[3],unidades=vals[12];
-    if(!orden||!destino||!unidades)continue;
+    if(!orden||!destino||!unidades)return;
     var ordenStr=String(orden).trim();
     var destinoStr=String(destino).trim();
-    if(!ordenStr.indexOf('PO-')===0&&ordenStr.indexOf('PO-')<0)continue;
+    if(ordenStr.indexOf('PO-')<0)return;
     var qty=parseInt(unidades);
-    if(isNaN(qty)||qty<=0)continue;
+    if(isNaN(qty)||qty<=0)return;
     result.push({
       id:ordenStr,
       pc:destinoStr,
@@ -382,7 +374,7 @@ function parseLum(rows){
       d:'ZARZAMORA FRESCA 125G',
       q:qty
     });
-  }
+  });
   return result;
 }
 function renderCencosudForm(){
