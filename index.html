@@ -7,11 +7,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
-:root{--bg:#0f0f0f;--sf:#1a1a1a;--sf2:#242424;--bd:#2e2e2e;--ac:#b8f55a;--wn:#f5c85a;--dn:#f55a5a;--t:#e8e8e8;--t2:#888;--t3:#555;--r:8px;}
+:root{--bg:#0d1117;--sf:#161b22;--sf2:#21262d;--bd:#30363d;--ac:#58a6ff;--ac2:#3fb950;--wn:#d29922;--dn:#f85149;--t:#e6edf3;--t2:#8b949e;--t3:#484f58;--r:8px;}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:"IBM Plex Sans",sans-serif;background:var(--bg);color:var(--t);min-height:100vh;padding:28px 24px;}
-.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;padding-bottom:20px;border-bottom:1px solid var(--bd);}
-.logo{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ac);letter-spacing:.15em;text-transform:uppercase;}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;padding-bottom:20px;border-bottom:2px solid var(--ac);}
+.logo{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ac2);letter-spacing:.15em;text-transform:uppercase;}
 h1{font-size:20px;font-weight:500;margin-top:4px;}
 .nav{display:flex;gap:4px;}
 .nbtn{font-size:12px;font-weight:500;padding:7px 16px;border-radius:6px;border:1px solid var(--bd);background:transparent;color:var(--t2);cursor:pointer;}
@@ -23,15 +23,15 @@ h1{font-size:20px;font-weight:500;margin-top:4px;}
 .pb{padding:18px;}
 .steps{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:24px;}
 .step{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:14px;}
-.step.active{border-color:var(--ac);}
+.step.active{border-color:var(--ac2);background:rgba(63,185,80,.05);}
 .step.done{opacity:.5;}
 .sn{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--t3);margin-bottom:3px;}
-.step.active .sn{color:var(--ac);}
+.step.active .sn{color:var(--ac2);}
 .st{font-size:12px;font-weight:500;}
 .cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;}
 .cbtn{background:var(--sf2);border:1.5px solid var(--bd);border-radius:var(--r);padding:14px;cursor:pointer;text-align:left;color:var(--t);}
 .cbtn:hover{border-color:var(--t3);}
-.cbtn.sel{border-color:var(--ac);background:rgba(184,245,90,.06);}
+.cbtn.sel{border-color:var(--ac);background:rgba(88,166,255,.08);}
 .cn{font-size:13px;font-weight:500;}
 .cd{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--t3);margin-top:3px;}
 .upzone{border:1.5px dashed var(--bd);border-radius:var(--r);padding:22px;text-align:center;cursor:pointer;transition:all .2s;position:relative;}
@@ -40,7 +40,7 @@ h1{font-size:20px;font-weight:500;margin-top:4px;}
 .ul{font-size:13px;color:var(--t2);}
 .ul span{color:var(--ac);font-weight:500;}
 .uh{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--t3);margin-top:5px;}
-.fload{display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(184,245,90,.06);border:1px solid rgba(184,245,90,.2);border-radius:var(--r);font-size:12px;color:var(--ac);}
+.fload{display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(63,185,80,.06);border:1px solid rgba(63,185,80,.2);border-radius:var(--r);font-size:12px;color:var(--ac2);}
 .tw{overflow:auto;border-radius:var(--r);border:1px solid var(--bd);max-height:400px;}
 table{width:100%;border-collapse:collapse;font-size:12px;}
 thead th{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;padding:9px 12px;text-align:left;background:var(--sf2);border-bottom:1px solid var(--bd);white-space:nowrap;position:sticky;top:0;z-index:1;}
@@ -57,18 +57,18 @@ select.ti{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns=
 select.ti option{background:#1a1a1a;color:#e8e8e8;}
 .alert{display:flex;gap:10px;padding:11px 14px;border-radius:var(--r);margin-bottom:8px;font-size:12px;}
 .aw{background:rgba(245,200,90,.08);border:1px solid rgba(245,200,90,.25);color:var(--wn);}
-.ao{background:rgba(184,245,90,.06);border:1px solid rgba(184,245,90,.2);color:var(--ac);}
+.ao{background:rgba(63,185,80,.06);border:1px solid rgba(63,185,80,.2);color:var(--ac2);}
 .lnote{display:flex;align-items:center;gap:8px;padding:10px 14px;background:rgba(245,200,90,.06);border:1px solid rgba(245,200,90,.2);border-radius:var(--r);font-size:12px;color:var(--wn);margin-top:12px;}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px;}
 .stat{background:var(--sf2);border:1px solid var(--bd);border-radius:var(--r);padding:13px;}
-.sv{font-family:"IBM Plex Mono",monospace;font-size:20px;font-weight:600;color:var(--ac);}
+.sv{font-family:"IBM Plex Mono",monospace;font-size:20px;font-weight:600;color:var(--ac2);}
 .sl{font-size:11px;color:var(--t3);margin-top:2px;}
 .tag{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10px;padding:2px 8px;border-radius:4px;background:var(--sf2);border:1px solid var(--bd);color:var(--t3);}
-.tg{background:rgba(184,245,90,.1);border-color:rgba(184,245,90,.3);color:var(--ac);}
+.tg{background:rgba(63,185,80,.1);border-color:rgba(63,185,80,.3);color:var(--ac2);}
 .ty{background:rgba(245,200,90,.1);border-color:rgba(245,200,90,.3);color:var(--wn);}
 .btn{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:var(--r);font-family:"IBM Plex Sans",sans-serif;font-size:12px;font-weight:500;cursor:pointer;border:none;}
-.bp{background:var(--ac);color:#0f0f0f;}
-.bp:hover{background:#caff6a;}
+.bp{background:var(--ac);color:#0d1117;}
+.bp:hover{background:#79c0ff;}
 .bs{background:var(--sf2);border:1px solid var(--bd);color:var(--t);}
 .bs:hover{border-color:var(--t3);}
 .acts{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap;}
@@ -89,6 +89,7 @@ select.ti option{background:#1a1a1a;color:#e8e8e8;}
   <nav class="nav">
     <button class="nbtn active" id="nav-f" onclick="showPage('f')">&#9889; Facturar</button>
     <button class="nbtn" id="nav-m" onclick="showPage('m')">&#128193; Datos Maestros</button>
+    <button class="nbtn" id="nav-d" onclick="showPage('d')">&#127815; Degustaciones</button>
   </nav>
 </div>
 
@@ -160,6 +161,25 @@ select.ti option{background:#1a1a1a;color:#e8e8e8;}
   <div id="mcontent"><div class="panel"><div class="pb" style="color:var(--t3);font-size:13px;">Selecciona un cliente.</div></div></div>
 </div>
 
+<div id="page-d" class="hidden">
+  <div style="margin-bottom:18px;">
+    <div style="font-size:15px;font-weight:500;">Degustaciones</div>
+    <div style="font-size:12px;color:var(--t3);margin-top:2px;">Genera CSV de carga masiva para facturas de degustacion a precio 0.</div>
+  </div>
+  <div class="panel"><div class="ph"><span class="pl">Cliente</span></div><div class="pb"><div class="cgrid" id="dgrid"></div></div></div>
+  <div id="deg-form" class="hidden">
+    <div class="panel">
+      <div class="ph">
+        <span class="pl" id="deg-panel-title">Puntos de entrega</span>
+        <span style="font-size:11px;color:var(--t3);">Cantidad de unidades 125GR. Deja en 0 los que no aplican.</span>
+      </div>
+      <div class="pb" style="padding:0"><div class="tw"><table id="deg-table"></table></div></div>
+    </div>
+    <div class="lnote" style="margin-bottom:14px;">&#9888;&#65039; Recuerda completar <strong style="margin:0 4px">Lote</strong> y <strong style="margin:0 4px">Departamento</strong> manualmente antes de cargar a NetSuite.</div>
+    <button class="btn bp" onclick="genDeg()">&#11015; Generar CSV Degustacion</button>
+  </div>
+</div>
+
 <script>
 var MD = {"exito": {"id": 436, "nombre": "ALMACENES \u00c9XITO S.A", "terminos": "8", "dirs": [{"idDir": 614, "ciudad": "BUCARAMANGA", "etiqueta": "EXITO CA\u00d1AVERAL FLORIDABLANCA", "depCliente": "320"}, {"idDir": 612, "ciudad": "BUCARAMANGA", "etiqueta": "EXITO BUCARAMANGA ROSITA", "depCliente": "71"}, {"idDir": 618, "ciudad": "CALI", "etiqueta": "CARULLA PANCE", "depCliente": "594"}, {"idDir": 620, "ciudad": "CALI", "etiqueta": "CARULLA SAN FERNANDO", "depCliente": "595"}, {"idDir": 622, "ciudad": "CALI", "etiqueta": "CARULLA AVENIDA COLOMBIA", "depCliente": "4219"}, {"idDir": 624, "ciudad": "CALI", "etiqueta": "\u00c9XITO JAMUNDI", "depCliente": "4049"}, {"idDir": 626, "ciudad": "CALI", "etiqueta": "\u00c9XITO GUADALUPE /SUPER INTER GUADALUPE", "depCliente": "4090"}, {"idDir": 628, "ciudad": "CALI", "etiqueta": "EXITO SAN FERNANDO", "depCliente": "51"}, {"idDir": 630, "ciudad": "CALI", "etiqueta": "CARULLA PASOANCHO", "depCliente": "4799"}, {"idDir": 632, "ciudad": "CALI", "etiqueta": "\u00c9XITO LLANOGRANDE", "depCliente": "4054"}, {"idDir": 634, "ciudad": "CARTAGENA", "etiqueta": "CARULLA VILLA SUSANA", "depCliente": "539"}, {"idDir": 639, "ciudad": "ENVIGADO", "etiqueta": "\u00c9XITO CEDI VEGAS", "depCliente": "20"}, {"idDir": 641, "ciudad": "MANIZALES", "etiqueta": "CARULLA SAN MARCEL", "depCliente": "4805"}, {"idDir": 643, "ciudad": "MANIZALES", "etiqueta": "\u00c9XITO SANCANCIO", "depCliente": "420"}, {"idDir": 645, "ciudad": "MANIZALES", "etiqueta": "INTER VILLA DEL PILAR", "depCliente": "4280"}, {"idDir": 647, "ciudad": "PEREIRA", "etiqueta": "CARULLA CERRITOS", "depCliente": "4811"}, {"idDir": 649, "ciudad": "PEREIRA", "etiqueta": "\u00c9XITO VICTORIA (PEREIRA)", "depCliente": "63"}, {"idDir": 629, "ciudad": "CALI", "etiqueta": "EXITO MELENDEZ", "depCliente": "4086"}, {"idDir": 631, "ciudad": "CALI", "etiqueta": "\u00c9XITO PALMETO", "depCliente": "616"}, {"idDir": 633, "ciudad": "CARTAGENA", "etiqueta": "CARULLA SANTA LUCIA", "depCliente": "538"}, {"idDir": 635, "ciudad": "CARTAGENA", "etiqueta": "CARULLA CASTILLO GRANDE", "depCliente": "634"}, {"idDir": 636, "ciudad": "CARTAGENA", "etiqueta": "CARULLA RAMBLAS", "depCliente": "647"}, {"idDir": 637, "ciudad": "CARTAGENA", "etiqueta": "\u00c9XITO CASTELLANA", "depCliente": "370"}, {"idDir": 638, "ciudad": "CARTAGENA", "etiqueta": "EXITO SAN DIEGO CARTAGENA (CV)", "depCliente": "367"}, {"idDir": 640, "ciudad": "MANIZALES", "etiqueta": "CARULLA MANIZALES CABLE", "depCliente": "334"}, {"idDir": 642, "ciudad": "MANIZALES", "etiqueta": "\u00c9XITO FUNDADORES", "depCliente": "383"}, {"idDir": 644, "ciudad": "MANIZALES", "etiqueta": "INTER ALTA SUIZA", "depCliente": "4302"}, {"idDir": 646, "ciudad": "PEREIRA", "etiqueta": "CARULLA PINARES", "depCliente": "4812"}, {"idDir": 648, "ciudad": "PEREIRA", "etiqueta": "\u00c9XITO ARBOLEDA", "depCliente": "62"}, {"idDir": 650, "ciudad": "PEREIRA", "etiqueta": "\u00c9XITO VILLA VERDE", "depCliente": "4096"}, {"idDir": 651, "ciudad": "PEREIRA", "etiqueta": "INTER CASTILLA /CARULLA", "depCliente": "4783"}, {"idDir": 652, "ciudad": "PEREIRA", "etiqueta": "INTER LA TIENDA", "depCliente": "4244"}, {"idDir": 653, "ciudad": "PEREIRA", "etiqueta": "INTER VILLA OLIMPICA/\u00c9XITO", "depCliente": "4097"}, {"idDir": 602, "ciudad": "ARMENIA", "etiqueta": "SUPER INTER ARMENIA PLAZA", "depCliente": "4239"}, {"idDir": 604, "ciudad": "ARMENIA", "etiqueta": "CARULLA FERIA DE LOS PLATANOS", "depCliente": "4099"}, {"idDir": 606, "ciudad": "BARRANQUILLA", "etiqueta": "CARULLA CALLE 86", "depCliente": "534"}, {"idDir": 608, "ciudad": "BARRANQUILLA", "etiqueta": "CARULLA CUIDAD DEL MAR", "depCliente": "4800"}, {"idDir": 610, "ciudad": "BARRANQUILLA", "etiqueta": "\u00c9XITO VIVA\u00a0", "depCliente": "41"}, {"idDir": 613, "ciudad": "BUCARAMANGA", "etiqueta": "EXITO BUCARAMANGA CABECERA", "depCliente": "319"}, {"idDir": 615, "ciudad": "BUCARAMANGA", "etiqueta": "EXITO ORIENTAL BUCARAMANGA CV", "depCliente": "352"}, {"idDir": 617, "ciudad": "CALI", "etiqueta": "\u00c9XITO FLORA", "depCliente": "54"}, {"idDir": 619, "ciudad": "CALI", "etiqueta": "\u00c9XITO VALLE DE LILI", "depCliente": "4058"}, {"idDir": 621, "ciudad": "CALI", "etiqueta": "\u00c9XITO CHIPICHAPE", "depCliente": "402"}, {"idDir": 623, "ciudad": "CALI", "etiqueta": "CARULLA TRADER CENTER - HOLGUINES", "depCliente": "596"}, {"idDir": 625, "ciudad": "CALI", "etiqueta": "CARULLA LA MARIA / SUPER INTER LA MARIA", "depCliente": "4781"}, {"idDir": 627, "ciudad": "CALI", "etiqueta": "CARULLA CUIDAD JARDIN", "depCliente": "732"}, {"idDir": 419, "ciudad": "ENVIGADO", "etiqueta": "cr 32 sur 32 5", "depCliente": ""}, {"idDir": 728, "ciudad": "BOGOT\u00c1, D.C.", "etiqueta": "\u00c9XITO CEDI SIBERIA", "depCliente": "934"}, {"idDir": 601, "ciudad": "ARMENIA", "etiqueta": "\u00c9XITO UNIARMENIA", "depCliente": "65"}, {"idDir": 603, "ciudad": "ARMENIA", "etiqueta": "SUPER INTER NORTE", "depCliente": "4234"}, {"idDir": 605, "ciudad": "BARRANQUILLA", "etiqueta": "CARULLA VILLA COINTRY", "depCliente": "280"}, {"idDir": 607, "ciudad": "BARRANQUILLA", "etiqueta": "CARULLA CALLE 82", "depCliente": "599"}, {"idDir": 609, "ciudad": "BARRANQUILLA", "etiqueta": "CARULLA MALL PLAZA", "depCliente": "4816"}, {"idDir": 611, "ciudad": "BARRANQUILLA", "etiqueta": "\u00c9XITO WOW BELLA VISTA", "depCliente": "362"}, {"idDir": 616, "ciudad": "CALI", "etiqueta": "\u00c9XITO UNICENTRO/UNICALI", "depCliente": "56"}], "precios": [{"ciudad": "ARMENIA", "UNIDAD": "125GR", "vr": 10500, "nivel": "EXITO_ARM_125"}, {"ciudad": "ARMENIA", "UNIDAD": "250GR", "vr": 19982, "nivel": "EXITO_ARM_250"}, {"ciudad": "BARRANQUILLA", "UNIDAD": "125GR", "vr": 10710, "nivel": "EXITO_BAR_125"}, {"ciudad": "BARRANQUILLA", "UNIDAD": "250GR", "vr": 20790, "nivel": "EXITO_BAR_250"}, {"ciudad": "BOGOT\u00c1, D.C.", "UNIDAD": "125GR", "vr": 10500, "nivel": "EXITO_BOG_125"}, {"ciudad": "BOGOT\u00c1, D.C.", "UNIDAD": "250GR", "vr": 19982, "nivel": "EXITO_BOG_250"}, {"ciudad": "BUCARAMANGA", "UNIDAD": "125GR", "vr": 10710, "nivel": "EXITO_BUC_125"}, {"ciudad": "BUCARAMANGA", "UNIDAD": "250GR", "vr": 20790, "nivel": "EXITO_BUC_250"}, {"ciudad": "CALI", "UNIDAD": "125GR", "vr": 10710, "nivel": "EXITO_CAL_125"}, {"ciudad": "CALI", "UNIDAD": "250GR", "vr": 20790, "nivel": "EXITO_CAL_250"}, {"ciudad": "CARTAGENA", "UNIDAD": "125GR", "vr": 10710, "nivel": "EXITO_CAR_125"}, {"ciudad": "CARTAGENA", "UNIDAD": "250GR", "vr": 20790, "nivel": "EXITO_CAR_250"}, {"ciudad": "MANIZALES", "UNIDAD": "125GR", "vr": 10500, "nivel": "EXITO_MAN_125"}, {"ciudad": "MANIZALES", "UNIDAD": "250GR", "vr": 19982, "nivel": "EXITO_MAN_250"}, {"ciudad": "MEDELL\u00cdN", "UNIDAD": "125GR", "vr": 9975, "nivel": "EXITO_MED_125"}, {"ciudad": "MEDELL\u00cdN", "UNIDAD": "250GR", "vr": 19404, "nivel": "EXITO_MED_250"}, {"ciudad": "PEREIRA", "UNIDAD": "125GR", "vr": 10500, "nivel": "EXITO_PER_125"}, {"ciudad": "PEREIRA", "UNIDAD": "250GR", "vr": 19982, "nivel": "EXITO_PER_250"}]}, "olimpica": {"id": 428, "nombre": "SUPERTIENDAS Y DROGUERIAS OLIMPICA SA", "terminos": "15", "dirs": [{"idDir": 708, "ciudad": "BARRANQUILLA", "etiqueta": "PARAISO", "depCliente": "1084"}, {"idDir": 764, "ciudad": "MEDELL\u00cdN", "etiqueta": "LA MILAGROSA", "depCliente": "1343"}, {"idDir": 717, "ciudad": "CARTAGENA", "etiqueta": "PIE DE LA POPA", "depCliente": "1107"}, {"idDir": 721, "ciudad": "CARTAGENA", "etiqueta": "MANGA", "depCliente": "1129"}, {"idDir": 723, "ciudad": "MANIZALES", "etiqueta": "AVENIDA SANTANDER", "depCliente": "1364"}, {"idDir": 724, "ciudad": "PEREIRA", "etiqueta": "30 DE AGOSTO", "depCliente": "1351"}, {"idDir": 726, "ciudad": "PEREIRA", "etiqueta": "ALTO DE LA VISTA/ALTAVISTA", "depCliente": "1369"}, {"idDir": 1914, "ciudad": "BARRANQUILLA", "etiqueta": "CALLE 85", "depCliente": ""}, {"idDir": 1915, "ciudad": "BARRANQUILLA", "etiqueta": "CIUDAD JARDIN", "depCliente": ""}, {"idDir": 1916, "ciudad": "BARRANQUILLA", "etiqueta": "MIRAMAR", "depCliente": ""}, {"idDir": 1917, "ciudad": "BARRANQUILLA", "etiqueta": "MUELLE DEL RIO ALAMEDA", "depCliente": ""}, {"idDir": 763, "ciudad": "MEDELL\u00cdN", "etiqueta": "SAN LUCAS", "depCliente": "1340"}, {"idDir": 765, "ciudad": "MEDELL\u00cdN", "etiqueta": "ENVIGADO", "depCliente": "1348"}, {"idDir": 697, "ciudad": "ARMENIA", "etiqueta": "POTAL DEL QUINDIO", "depCliente": "1358"}, {"idDir": 699, "ciudad": "BARRANQUILLA", "etiqueta": "CALLE 82 CRA 53", "depCliente": "1544"}, {"idDir": 701, "ciudad": "BARRANQUILLA", "etiqueta": "PUERTO COLOMBIA", "depCliente": "1009"}, {"idDir": 703, "ciudad": "BARRANQUILLA", "etiqueta": "GOLF", "depCliente": "1059"}, {"idDir": 705, "ciudad": "BARRANQUILLA", "etiqueta": "VILLA COUNTRY", "depCliente": "1079"}, {"idDir": 707, "ciudad": "BARRANQUILLA", "etiqueta": "CARRERA 46", "depCliente": "1082"}, {"idDir": 698, "ciudad": "ARMENIA", "etiqueta": "ARMENIA NORTE", "depCliente": "1355"}, {"idDir": 700, "ciudad": "BARRANQUILLA", "etiqueta": "SAO PORTAL", "depCliente": "1001"}, {"idDir": 702, "ciudad": "BARRANQUILLA", "etiqueta": "VILLA CAMPESTRE", "depCliente": "1054"}, {"idDir": 704, "ciudad": "BARRANQUILLA", "etiqueta": "PRADO ALTO CALLE 76", "depCliente": "1076"}, {"idDir": 706, "ciudad": "BARRANQUILLA", "etiqueta": "MALLORQUIN", "depCliente": "1081"}, {"idDir": 709, "ciudad": "BARRANQUILLA", "etiqueta": "VILLA CAROLINA", "depCliente": "1094"}, {"idDir": 711, "ciudad": "BARRANQUILLA", "etiqueta": "VILLA SANTOS", "depCliente": "1100"}, {"idDir": 712, "ciudad": "BARRANQUILLA", "etiqueta": "SAO 93", "depCliente": "1093"}, {"idDir": 713, "ciudad": "CALI", "etiqueta": "GUADALUPE", "depCliente": "1130"}, {"idDir": 714, "ciudad": "CALI", "etiqueta": "CRISTALES", "depCliente": "1573"}, {"idDir": 1407, "ciudad": "SANTA MARTA", "etiqueta": "SANTAMARTA", "depCliente": "1203"}, {"idDir": 1408, "ciudad": "SANTA MARTA", "etiqueta": "RODADERO", "depCliente": "1202"}, {"idDir": 1409, "ciudad": "SANTA MARTA", "etiqueta": "BELLO HORIZONTE", "depCliente": "1222"}, {"idDir": 1410, "ciudad": "SANTA MARTA", "etiqueta": "BAVARIA", "depCliente": "1231"}, {"idDir": 1411, "ciudad": "SANTA MARTA", "etiqueta": "ALUNA", "depCliente": "1232"}, {"idDir": 715, "ciudad": "CALI", "etiqueta": "SANTIAGO PLAZA", "depCliente": "1138"}, {"idDir": 716, "ciudad": "CARTAGENA", "etiqueta": "BOCA GRANDE", "depCliente": "1103"}, {"idDir": 718, "ciudad": "CARTAGENA", "etiqueta": "24 HORAS BOCAGRANDE", "depCliente": "610"}, {"idDir": 719, "ciudad": "CARTAGENA", "etiqueta": "LA PLAZUELA", "depCliente": "1105"}, {"idDir": 720, "ciudad": "CARTAGENA", "etiqueta": "SAN FELIPE", "depCliente": "1112"}, {"idDir": 722, "ciudad": "MANIZALES", "etiqueta": "MALL PLAZA", "depCliente": "1376"}, {"idDir": 411, "ciudad": "BARRANQUILLA", "etiqueta": "CL 53 46 192 LC 3 01", "depCliente": ""}, {"idDir": 725, "ciudad": "PEREIRA", "etiqueta": "GAMA", "depCliente": "1350"}, {"idDir": 762, "ciudad": "BOGOT\u00c1, D.C.", "etiqueta": "OLIMPICA CEDI BOGOTA", "depCliente": "8006"}, {"idDir": 710, "ciudad": "BARRANQUILLA", "etiqueta": "BUENA VISTA", "depCliente": "1098"}], "precios": [{"ciudad": "ARMENIA", "UNIDAD": "125GR", "vr": 11200, "nivel": "OLIMPICA_125"}, {"ciudad": "ARMENIA", "UNIDAD": "250GR", "vr": 21350, "nivel": "OLIMPICA_250"}, {"ciudad": "BARRANQUILLA", "UNIDAD": "125GR", "vr": 11200, "nivel": "OLIMPICA_125"}, {"ciudad": "BARRANQUILLA", "UNIDAD": "250GR", "vr": 21350, "nivel": "OLIMPICA_250"}, {"ciudad": "BOGOT\u00c1, D.C.", "UNIDAD": "125GR", "vr": 11200, "nivel": "OLIMPICA_125"}, {"ciudad": "BOGOT\u00c1, D.C.", "UNIDAD": "250GR", "vr": 21350, "nivel": "OLIMPICA_250"}, {"ciudad": "CALI", "UNIDAD": "125GR", "vr": 11200, "nivel": "OLIMPICA_125"}, {"ciudad": "CALI", "UNIDAD": "250GR", "vr": 21350, "nivel": "OLIMPICA_250"}, {"ciudad": "CARTAGENA", "UNIDAD": "125GR", "vr": 11200, "nivel": "OLIMPICA_125"}, {"ciudad": "CARTAGENA", "UNIDAD": "250GR", "vr": 21350, "nivel": "OLIMPICA_250"}, {"ciudad": "MANIZALES", "UNIDAD": "125GR", "vr": 11200, "nivel": "OLIMPICA_125"}, {"ciudad": "MANIZALES", "UNIDAD": "250GR", "vr": 21350, "nivel": "OLIMPICA_250"}, {"ciudad": "MEDELL\u00cdN", "UNIDAD": "125GR", "vr": 11200, "nivel": "OLIMPICA_125"}, {"ciudad": "MEDELL\u00cdN", "UNIDAD": "250GR", "vr": 21350, "nivel": "OLIMPICA_250"}, {"ciudad": "PEREIRA", "UNIDAD": "125GR", "vr": 11200, "nivel": "OLIMPICA_125"}, {"ciudad": "PEREIRA", "UNIDAD": "250GR", "vr": 21350, "nivel": "OLIMPICA_250"}]}, "canaveral": {"id": 435, "nombre": "SUPERTIENDAS CA\u00d1AVERAL SAS", "terminos": "8", "dirs": [{"idDir": 418, "ciudad": "CALI", "etiqueta": "CALLE 18 A 56 65 LC 10", "depCliente": ""}, {"idDir": 687, "ciudad": "CALI", "etiqueta": "CARRERA PRIMERA", "depCliente": ""}, {"idDir": 689, "ciudad": "CALI", "etiqueta": "CUIDAD COUNTRY", "depCliente": ""}, {"idDir": 691, "ciudad": "CALI", "etiqueta": "LA 34 -PRADOS DEL NORTE", "depCliente": ""}, {"idDir": 693, "ciudad": "CALI", "etiqueta": "LOS PINOS", "depCliente": ""}, {"idDir": 695, "ciudad": "CALI", "etiqueta": "PANCE", "depCliente": ""}, {"idDir": 688, "ciudad": "CALI", "etiqueta": "CENTENARIO", "depCliente": ""}, {"idDir": 690, "ciudad": "CALI", "etiqueta": "INGENIO", "depCliente": ""}, {"idDir": 692, "ciudad": "CALI", "etiqueta": "LIMONAR -QUINTAS DE DON SIMON", "depCliente": ""}, {"idDir": 694, "ciudad": "CALI", "etiqueta": "PALMITEX", "depCliente": ""}, {"idDir": 696, "ciudad": "CALI", "etiqueta": "PASO ANCHO", "depCliente": ""}], "precios": [{"ciudad": "CALI", "UNIDAD": "125GR", "vr": 9975, "nivel": "CA\u00d1AVERAL_125"}, {"ciudad": "CALI", "UNIDAD": "250GR", "vr": 19740, "nivel": "CA\u00d1AVERAL_250"}]}, "cencosud": {"id": 431, "nombre": "CENCOSUD COLOMBIA S.A", "terminos": "15", "dirs": [{"idDir": 654, "ciudad": "BARRANQUILLA", "etiqueta": "JUMBO ALTO DEL PRADO", "depCliente": ""}, {"idDir": 655, "ciudad": "BARRANQUILLA", "etiqueta": "JUMBO BUENA VISTA", "depCliente": ""}, {"idDir": 656, "ciudad": "BARRANQUILLA", "etiqueta": "JUMBO AMERICANO", "depCliente": ""}, {"idDir": 729, "ciudad": "BOGOT\u00c1, D.C.", "etiqueta": "JUMBO CEDI BOGOTA", "depCliente": ""}, {"idDir": 414, "ciudad": "BOGOT\u00c1, D.C.", "etiqueta": "AV 9 125 30", "depCliente": ""}, {"idDir": 658, "ciudad": "BUCARAMANGA", "etiqueta": "JUMBO CABECERA", "depCliente": ""}, {"idDir": 657, "ciudad": "BUCARAMANGA", "etiqueta": "JUMBO MEGA MALL", "depCliente": ""}, {"idDir": 660, "ciudad": "BUCARAMANGA", "etiqueta": "JUMBO BOSQUE", "depCliente": ""}, {"idDir": 659, "ciudad": "BUCARAMANGA", "etiqueta": "JUMBO CA\u00d1AVERAL", "depCliente": ""}, {"idDir": 661, "ciudad": "CALI", "etiqueta": "JUMBO CEDI CALI", "depCliente": ""}, {"idDir": 662, "ciudad": "CARTAGENA", "etiqueta": "JUMBO CASTILLO", "depCliente": ""}, {"idDir": 663, "ciudad": "CARTAGENA", "etiqueta": "JUMBO CARIBE PLAZA", "depCliente": ""}, {"idDir": 731, "ciudad": "MEDELL\u00cdN", "etiqueta": "JUMBO LA 65", "depCliente": ""}, {"idDir": 733, "ciudad": "MEDELL\u00cdN", "etiqueta": "JUMBO RIONEGRO", "depCliente": ""}, {"idDir": 730, "ciudad": "MEDELL\u00cdN", "etiqueta": "JUMBO LAS VEGAS", "depCliente": ""}, {"idDir": 732, "ciudad": "MEDELL\u00cdN", "etiqueta": "JUMBO PREMIUN PLAZA", "depCliente": ""}, {"idDir": 734, "ciudad": "MEDELL\u00cdN", "etiqueta": "JUMBO CC SANTA FE", "depCliente": ""}, {"idDir": 1405, "ciudad": "SANTA MARTA", "etiqueta": "SANTA MARTA JUMBO", "depCliente": ""}], "precios": [{"ciudad": "BOGOT\u00c1, D.C.", "UNIDAD": "125GR", "vr": 12075, "nivel": "JUMBO_NAC_125"}, {"ciudad": "BOGOT\u00c1, D.C.", "UNIDAD": "250GR", "vr": 22995, "nivel": "JUMBO_NAC_250"}, {"ciudad": "MEDELL\u00cdN", "UNIDAD": "125GR", "vr": 11813, "nivel": "JUMBO_MED_125"}, {"ciudad": "MEDELL\u00cdN", "UNIDAD": "250GR", "vr": 22838, "nivel": "JUMBO_MED_250"}]}};
 var CD = ["ARMENIA","BARRANQUILLA","BOGOTA D.C.","BUCARAMANGA","CALI","CARTAGENA","ENVIGADO","MANIZALES","MEDELLIN","PEREIRA","SANTA MARTA"];
@@ -193,9 +213,12 @@ var S={cli:null,raw:[],pts:[],eq:{},rows:[],mcli:null,tab:'info'};
 function showPage(p){
   document.getElementById('page-f').classList.toggle('hidden',p!=='f');
   document.getElementById('page-m').classList.toggle('hidden',p!=='m');
+  document.getElementById('page-d').classList.toggle('hidden',p!=='d');
   document.getElementById('nav-f').classList.toggle('active',p==='f');
   document.getElementById('nav-m').classList.toggle('active',p==='m');
+  document.getElementById('nav-d').classList.toggle('active',p==='d');
   if(p==='m') renderM();
+  if(p==='d') initDegGrid();
 }
 
 // -- STEP NAV --
@@ -335,24 +358,9 @@ function renderCencosudForm(){
   var panel=document.createElement('div');panel.className='panel';panel.id='cencosud-form-panel';
   var ph=document.createElement('div');ph.className='ph';
   var lbl=document.createElement('span');lbl.className='pl';lbl.textContent='Orden Manual Cencosud';
-  ph.appendChild(lbl);panel.appendChild(ph);
+  var note=document.createElement('span');note.style.cssText='font-size:11px;color:var(--t3);';note.textContent='ID externo se genera automaticamente';
+  ph.appendChild(lbl);ph.appendChild(note);panel.appendChild(ph);
   var pb=document.createElement('div');pb.className='pb';
-
-  // Global fill helper
-  var topDiv=document.createElement('div');topDiv.style.cssText='display:flex;gap:10px;align-items:flex-end;margin-bottom:16px;padding:12px 14px;background:var(--sf2);border:1px solid var(--bd);border-radius:var(--r);flex-wrap:wrap;';
-  var tlbl=document.createElement('span');tlbl.style.cssText='font-size:11px;color:var(--t3);align-self:center;white-space:nowrap;';tlbl.textContent='Aplicar a todos:';
-  var gOrd=document.createElement('input');gOrd.className='ti';gOrd.placeholder='No. Orden para todos';gOrd.style.cssText='max-width:180px;font-size:11px;';
-  var fillBtn=document.createElement('button');fillBtn.className='btn bs';fillBtn.style.cssText='font-size:11px;padding:6px 12px;white-space:nowrap;';fillBtn.textContent='Aplicar';
-  fillBtn.addEventListener('click',function(){
-    var v=gOrd.value.trim();
-    if(!v)return;
-    document.querySelectorAll('#cencosud-form-panel input[data-field="ord"]').forEach(function(i){i.value=v;});
-  });
-  var note=document.createElement('span');note.style.cssText='font-size:11px;color:var(--t3);align-self:center;';
-  note.textContent='El ID externo se genera automaticamente (orden-1, orden-2...)';
-  topDiv.appendChild(tlbl);topDiv.appendChild(gOrd);topDiv.appendChild(fillBtn);topDiv.appendChild(note);
-  pb.appendChild(topDiv);
-
   var tw=document.createElement('div');tw.className='tw';
   var tbl=document.createElement('table');
   var thead=document.createElement('thead');var thr=document.createElement('tr');
@@ -361,14 +369,13 @@ function renderCencosudForm(){
   });
   thead.appendChild(thr);tbl.appendChild(thead);
   var tbody=document.createElement('tbody');
-
   c.dirs.forEach(function(d,i){
     var tr=document.createElement('tr');tr.style.borderBottom='1px solid var(--bd)';
     var t1=document.createElement('td');t1.style.padding='8px 10px';t1.style.fontSize='12px';t1.textContent=d.etiqueta;
     var t2=document.createElement('td');t2.style.cssText='padding:8px 10px;font-size:11px;color:var(--t2);white-space:nowrap;';t2.textContent=d.ciudad;
     var t3=document.createElement('td');t3.style.cssText='padding:8px 6px;min-width:150px;';
     var iOrd=document.createElement('input');iOrd.className='ti';iOrd.placeholder='No. Orden';
-    iOrd.dataset.dir=i;iOrd.dataset.field='ord';iOrd.style.fontSize='11px;';
+    iOrd.dataset.dir=i;iOrd.dataset.field='ord';
     t3.appendChild(iOrd);
     var t4=document.createElement('td');t4.style.cssText='padding:8px 6px;width:80px;';
     var i125=document.createElement('input');i125.className='ti';i125.type='number';i125.min='0';i125.value='0';
@@ -381,15 +388,11 @@ function renderCencosudForm(){
     tr.appendChild(t1);tr.appendChild(t2);tr.appendChild(t3);tr.appendChild(t4);tr.appendChild(t5);
     tbody.appendChild(tr);
   });
-
   tbl.appendChild(tbody);tw.appendChild(tbl);pb.appendChild(tw);
-
   var genBtn=document.createElement('button');genBtn.className='btn bp';genBtn.style.marginTop='16px';genBtn.textContent='Generar CSV';
   genBtn.addEventListener('click',function(){
     var m2=gM(),c2=m2['cencosud'];
-    S.raw=[];
-    var errors=[];
-    var counter=1;
+    S.raw=[];var errors=[];var counter=1;
     var rows=document.querySelectorAll('#cencosud-form-panel tbody tr');
     rows.forEach(function(tr,i){
       var q125=parseInt(tr.querySelector('input[data-u="125GR"]').value)||0;
@@ -399,8 +402,7 @@ function renderCencosudForm(){
       var orden=ordInp?ordInp.value.trim():'';
       if(!orden){errors.push(c2.dirs[i].etiqueta);return;}
       var d=c2.dirs[i];
-      var idExt=orden+'-'+counter;
-      counter++;
+      var idExt=orden+'-'+counter;counter++;
       if(q125>0)S.raw.push({id:idExt,pc:String(d.idDir),pn:d.etiqueta,ord:orden,u:'125GR',d:'ZARZAMORA FRESCA 125G',q:q125});
       if(q250>0)S.raw.push({id:idExt,pc:String(d.idDir),pn:d.etiqueta,ord:orden,u:'250GR',d:'ZARZAMORA FRESCA 250G',q:q250});
     });
@@ -413,8 +415,7 @@ function renderCencosudForm(){
     });
     genPreview();
   });
-  pb.appendChild(genBtn);
-  panel.appendChild(pb);
+  pb.appendChild(genBtn);panel.appendChild(pb);
   document.getElementById('pupload').classList.add('hidden');
   document.getElementById('s1').appendChild(panel);
 }
@@ -794,6 +795,142 @@ function importAll(inp){
   };r.readAsText(f);
 }
 
+
+// -- DEGUSTACIONES --
+var SDEG={cli:null};
+
+function initDegGrid(){
+  var m=gM(), grid=document.getElementById('dgrid');
+  grid.innerHTML='';
+  Object.keys(m).forEach(function(key){
+    var c=m[key];
+    var btn=document.createElement('button');
+    btn.className='cbtn'+(SDEG.cli===key?' sel':'');
+    btn.innerHTML='<div class="cn">'+c.nombre+'</div><div class="cd">ID: '+c.id+'</div>';
+    btn.addEventListener('click',function(){
+      SDEG.cli=key;
+      initDegGrid();
+      renderDegTable();
+      document.getElementById('deg-form').classList.remove('hidden');
+    });
+    grid.appendChild(btn);
+  });
+}
+
+function renderDegTable(){
+  var m=gM(), c=m[SDEG.cli];
+  var tbl=document.getElementById('deg-table');
+  tbl.innerHTML='';
+
+  // Group dirs by city
+  var cities={};
+  c.dirs.forEach(function(d,i){
+    var city=d.ciudad||'SIN CIUDAD';
+    if(!cities[city])cities[city]=[];
+    cities[city].push({d:d,i:i});
+  });
+
+  var thead=document.createElement('thead');
+  var thr=document.createElement('tr');
+  ['Ciudad','Punto de entrega','Cantidad 125GR'].forEach(function(h){
+    var th=document.createElement('th');th.textContent=h;thr.appendChild(th);
+  });
+  thead.appendChild(thr);tbl.appendChild(thead);
+
+  var tbody=document.createElement('tbody');
+  Object.keys(cities).sort().forEach(function(city){
+    var pts=cities[city];
+    pts.forEach(function(item,idx){
+      var tr=document.createElement('tr');tr.style.borderBottom='1px solid var(--bd)';
+      // City cell - only on first row of city group, with rowspan
+      if(idx===0){
+        var tc=document.createElement('td');
+        tc.rowSpan=pts.length;
+        tc.style.cssText='padding:8px 12px;font-size:12px;font-weight:500;color:var(--ac);vertical-align:middle;border-right:1px solid var(--bd);white-space:nowrap;';
+        tc.textContent=city;
+        tr.appendChild(tc);
+      }
+      var t1=document.createElement('td');t1.style.padding='8px 10px';t1.style.fontSize='12px';t1.textContent=item.d.etiqueta;
+      var t2=document.createElement('td');t2.style.cssText='padding:8px 6px;width:120px;';
+      var inp=document.createElement('input');
+      inp.className='ti';inp.type='number';inp.min='0';inp.value='0';
+      inp.dataset.dir=item.i;inp.style.textAlign='center';
+      t2.appendChild(inp);
+      tr.appendChild(t1);tr.appendChild(t2);
+      tbody.appendChild(tr);
+    });
+  });
+  tbl.appendChild(tbody);
+}
+
+function genDeg(){
+  var m=gM(), c=m[SDEG.cli];
+  var today=new Date();
+  var dd=String(today.getDate()).padStart(2,'0');
+  var mm=String(today.getMonth()+1).padStart(2,'0');
+  var yyyy=today.getFullYear();
+  var dateStr=dd+mm+yyyy;
+  var rows=[], counter=1;
+
+  var inputs=document.querySelectorAll('#deg-table input[data-dir]');
+  inputs.forEach(function(inp){
+    var qty=parseInt(inp.value)||0;
+    if(qty===0)return;
+    var d=c.dirs[parseInt(inp.dataset.dir)];
+    var idExt='deg'+dateStr+String(counter).padStart(3,'0');
+    counter++;
+    var nota=d.ciudad+' - '+d.etiqueta;
+    rows.push({
+      'ID Externo de Factura de venta':idExt,
+      'Cliente:Trabajo *':c.id,
+      'Nombre de cliente':c.nombre,
+      'Descripcion':'ZARZAMORA FRESCA 125G',
+      'No de orden de compra':'DEGUSTACION',
+      'Nota':nota,
+      'Ubicacion *':6,
+      'Direccion de envio':d.idDir,
+      'Ubicacion de linea':6,
+      'DEPARTAMENTO':'',
+      'Articulo ID':437,
+      'Numero de serie/lote':'',
+      'Unidades':'125GR',
+      'Cantidad':qty,
+      'Nivel de precio':'MUESTRA_COMERCIAL'
+    });
+    rows.push({
+      'ID Externo de Factura de venta':idExt,
+      'Cliente:Trabajo *':c.id,
+      'Nombre de cliente':c.nombre,
+      'Descripcion':'ZARZAMORA FRESCA 125G',
+      'No de orden de compra':'DEGUSTACION',
+      'Nota':nota,
+      'Ubicacion *':8,
+      'Direccion de envio':d.idDir,
+      'Ubicacion de linea':8,
+      'DEPARTAMENTO':'',
+      'Articulo ID':1110,
+      'Numero de serie/lote':'',
+      'Unidades':'',
+      'Cantidad':'',
+      'Nivel de precio':'PRECIO BASE'
+    });
+  });
+
+  if(!rows.length){alert('Ingresa al menos una cantidad mayor a 0.');return;}
+  var cols=Object.keys(rows[0]);
+  var lines=[cols.join(';')].concat(rows.map(function(r){
+    return cols.map(function(col){
+      var v=String(r[col]!=null?r[col]:'');
+      if(v.indexOf(';')>=0||v.indexOf('"')>=0)v='"'+v.replace(/"/g,'""')+'"';
+      return v;
+    }).join(';');
+  }));
+  var b=new Blob([lines.join('\r\n')],{type:'text/csv;charset=utf-8;'});
+
+  var a=document.createElement('a');a.href=URL.createObjectURL(b);
+  a.download='DEG_'+SDEG.cli.toUpperCase()+'_'+dateStr+'.csv';
+  a.click();
+}
 // -- INIT --
 mkClientGrid('cgrid',selectCli,null);
 </script>
