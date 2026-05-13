@@ -356,7 +356,9 @@ function parseCanaveral(rows){
 function parseLum(rows){
   var result=[];
   rows.forEach(function(row){
-    var orden=row[1],destino=row[3],unidades=row[12];
+    // row is an array: [orden, null, destino, null, dir, null, null, fecha, null, arts, null, unidades, ...]
+    if(!Array.isArray(row))return;
+    var orden=row[0],destino=row[2],unidades=row[11];
     if(!orden||!destino||!unidades)return;
     var ordenStr=String(orden).trim();
     var destinoStr=String(destino).trim();
