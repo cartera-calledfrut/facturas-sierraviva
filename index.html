@@ -395,6 +395,8 @@ function parseExito(rows){
 }
 
 function parseOlimpica(rows){
+  // Auto-deteccion: formato nuevo tiene columna 'NEG', formato anterior tiene 'Documento compras'
+  if(rows.length && rows[0]['NEG'] !== undefined) return parseOlimpicaNueva(rows);
   return rows.reduce(function(acc,row){
     var doc=row['Documento compras'],cen=row['Centro'],txt=row['Texto breve'],qty=row['Cantidad de pedido'];
     var dn=parseFloat(doc);
@@ -402,6 +404,20 @@ function parseOlimpica(rows){
     var is250=String(txt).toUpperCase().indexOf('250')>=0;
     var cs=String(Math.round(parseFloat(cen)));
     acc.push({id:String(Math.round(dn)),pc:cs,pn:cs,ord:String(Math.round(dn)),u:is250?'250GR':'125GR',d:is250?'ZARZAMORA FRESCA 250G':'ZARZAMORA FRESCA 125G',q:parseInt(qty)});
+    return acc;
+  },[]);
+}
+
+function parseOlimpicaNueva(rows){
+  return rows.reduce(function(acc,row){
+    var neg=row['NEG'], plu=row['PLU SAP'], qty=row['Cant.'], msg=row['MENSAJE'];
+    if(!neg||!plu||!qty||isNaN(parseFloat(qty)))return acc;
+    var qtyInt=parseInt(qty);
+    if(isNaN(qtyInt)||qtyInt<=0)return acc;
+    var negStr=String(Math.round(parseFloat(neg)));
+    var is250=String(plu).trim()==='5919';
+    var ord=msg?String(msg).trim():negStr;
+    acc.push({id:ord,pc:negStr,pn:negStr,ord:ord,u:is250?'250GR':'125GR',d:is250?'ZARZAMORA FRESCA 250G':'ZARZAMORA FRESCA 125G',q:qtyInt});
     return acc;
   },[]);
 }
