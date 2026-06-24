@@ -382,6 +382,8 @@ function handleFile(file){
 
 // -- PARSERS --
 function parseExito(rows){
+  // Auto-deteccion: formato nuevo tiene columna 'Plu' numerica, formato anterior tiene 'Desc Plu'
+  if(rows.length && rows[0]['Plu']!==undefined) return parseExitoNueva(rows);
   return rows.reduce(function(acc,row){
     var dep=row['Dep'],desc=row['Dep Desc'],ord=row['Orden'],plu=row['Desc Plu'];
     var qty=row['Sugerido'];
@@ -390,6 +392,21 @@ function parseExito(rows){
     var is250=String(plu).toLowerCase().indexOf('250')>=0;
     var ds=String(parseInt(dep)).padStart(4,'0'),os=String(parseInt(ord)).padStart(6,'0');
     acc.push({id:ds+os,pc:String(parseInt(dep)),pn:String(desc).trim(),ord:ds+os,u:is250?'250GR':'125GR',d:is250?'ZARZAMORA FRESCA 250G':'ZARZAMORA FRESCA 125G',q:parseInt(qty)});
+    return acc;
+  },[]);
+}
+
+function parseExitoNueva(rows){
+  return rows.reduce(function(acc,row){
+    var dep=row['Dep'],desc=row['Dep Desc'],ord=row['Orden'],plu=row['Plu'];
+    // Cantidad: columna sin encabezado justo despues de 'Plu'
+    var ks=Object.keys(row),qty=row[ks[ks.indexOf('Plu')+1]];
+    if(!dep||!desc||!ord||!plu||isNaN(parseInt(dep))||isNaN(parseFloat(qty)))return acc;
+    var qtyInt=parseInt(qty);
+    if(isNaN(qtyInt)||qtyInt<=0)return acc;
+    var is250=String(plu).trim()==='3558994';
+    var ds=String(parseInt(dep)).padStart(4,'0'),os=String(parseInt(ord)).padStart(6,'0');
+    acc.push({id:ds+os,pc:String(parseInt(dep)),pn:String(desc).trim(),ord:ds+os,u:is250?'250GR':'125GR',d:is250?'ZARZAMORA FRESCA 250G':'ZARZAMORA FRESCA 125G',q:qtyInt});
     return acc;
   },[]);
 }
