@@ -409,14 +409,18 @@ function parseOlimpica(rows){
 }
 
 function parseOlimpicaNueva(rows){
+  // Posibles nombres de columna para el numero de orden de compra
+  var OC_COLS=['MENSAJE','PEDIDOS','PEDIDO','OC','ORDEN','No. ORDEN','N. ORDEN','ORDEN COMPRA','No. OC'];
   return rows.reduce(function(acc,row){
-    var neg=row['NEG'], plu=row['PLU SAP'], qty=row['Cant.'], msg=row['MENSAJE'];
+    var neg=row['NEG'], plu=row['PLU SAP'], qty=row['Cant.'];
+    var msg=null;
+    for(var i=0;i<OC_COLS.length;i++){if(row[OC_COLS[i]]){msg=String(row[OC_COLS[i]]).trim();break;}}
     if(!neg||!plu||!qty||isNaN(parseFloat(qty)))return acc;
     var qtyInt=parseInt(qty);
     if(isNaN(qtyInt)||qtyInt<=0)return acc;
     var negStr=String(Math.round(parseFloat(neg)));
     var is250=String(plu).trim()==='5919';
-    var ord=msg?String(msg).trim():negStr;
+    var ord=msg||negStr;
     acc.push({id:ord,pc:negStr,pn:negStr,ord:ord,u:is250?'250GR':'125GR',d:is250?'ZARZAMORA FRESCA 250G':'ZARZAMORA FRESCA 125G',q:qtyInt});
     return acc;
   },[]);
