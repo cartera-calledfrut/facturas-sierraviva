@@ -399,8 +399,9 @@ function parseExito(rows){
 function parseExitoNueva(rows){
   return rows.reduce(function(acc,row){
     var dep=row['Dep'],desc=row['Dep Desc'],ord=row['Orden'],plu=row['Plu'];
-    // Cantidad: columna sin encabezado justo despues de 'Plu'
-    var ks=Object.keys(row),qty=row[ks[ks.indexOf('Plu')+1]];
+    // Cantidad: si hay columna 'Desc Plu' (formato EJE), tomar la siguiente a ella; si no, la siguiente a 'Plu' (formato CALI)
+    var ks=Object.keys(row),dpIdx=ks.indexOf('Desc Plu');
+    var qty=row[ks[dpIdx>=0?dpIdx+1:ks.indexOf('Plu')+1]];
     if(!dep||!desc||!ord||!plu||isNaN(parseInt(dep))||isNaN(parseFloat(qty)))return acc;
     var qtyInt=parseInt(qty);
     if(isNaN(qtyInt)||qtyInt<=0)return acc;
