@@ -383,6 +383,7 @@ function handleFile(file){
 // -- PARSERS --
 function parseExito(rows){
   // Auto-deteccion: formato nuevo tiene columna 'Plu' numerica, formato anterior tiene 'Desc Plu'
+  if(rows.length && rows[0]['DEP']!==undefined && rows[0]['CANTD']!==undefined) return parseExitoDEP(rows);
   if(rows.length && rows[0]['Plu']!==undefined) return parseExitoNueva(rows);
   return rows.reduce(function(acc,row){
     var dep=row['Dep'],desc=row['Dep Desc'],ord=row['Orden'],plu=row['Desc Plu'];
@@ -412,6 +413,20 @@ function parseExitoNueva(rows){
   },[]);
 }
 
+function parseExitoDEP(rows){
+  return rows.reduce(function(acc,row){
+    var dep=row['DEP'],plu=row['PLUS'],qty=row['CANTD'],ord=row['N:ORDEN'];
+    if(!dep||isNaN(parseInt(dep)))return acc;
+    if(!plu||isNaN(parseInt(plu)))return acc;
+    var qtyInt=parseInt(qty);
+    if(isNaN(qtyInt)||qtyInt<=0)return acc;
+    var is250=String(plu).slice(-1)==='4';
+    var ds=String(parseInt(dep)).padStart(4,'0');
+    var ordStr=String(ord||'').replace(/^N\.Orden:\s*/i,'').replace(/^[|I]\s*/,'').trim();
+    acc.push({id:ds+ordStr,pc:String(parseInt(dep)),pn:String(parseInt(dep)),ord:ordStr,u:is250?'250GR':'125GR',d:is250?'ZARZAMORA FRESCA 250G':'ZARZAMORA FRESCA 125G',q:qtyInt});
+    return acc;
+  },[]);
+}
 function parseOlimpica(rows){
   // Auto-deteccion: formato nuevo tiene columna 'NEG', formato anterior tiene 'Documento compras'
   if(rows.length && rows[0]['NEG'] !== undefined) return parseOlimpicaNueva(rows);
