@@ -1014,7 +1014,7 @@ function genDeg(){
   var rows=[], counter=gDegCounter(dateStr)+1;
 
   var inputs=document.querySelectorAll('#deg-table input[data-dir]');
-  var ub1=SDEG.cli==='supervaquita'?13:6,ub2=SDEG.cli==='supervaquita'?16:8;
+  var ub1=SDEG.cli==='supervaquita'?13:6,ub2=SDEG.cli==='supervaquita'?16:8,art1=SDEG.cli==='supervaquita'?771:437;
   inputs.forEach(function(inp){
     var qty=parseInt(inp.value)||0;
     if(qty===0)return;
@@ -1033,7 +1033,7 @@ function genDeg(){
       'Direccion de envio':d.idDir,
       'Ubicacion de linea':ub1,
       'DEPARTAMENTO':'',
-      'Articulo ID':437,
+      'Articulo ID':art1,
       'Numero de serie/lote':'',
       'Unidades':'125GR',
       'Cantidad':qty,
