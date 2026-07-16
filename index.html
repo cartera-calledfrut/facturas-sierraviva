@@ -249,6 +249,7 @@ function gM(){
       var updated=false;
       Object.keys(MD).forEach(function(k){
         if(!stored[k]){stored[k]=JSON.parse(JSON.stringify(MD[k]));updated=true;}
+        else if(stored[k].factConfigured!==MD[k].factConfigured){stored[k].factConfigured=MD[k].factConfigured;updated=true;}
       });
       if(updated)localStorage.setItem(LM,JSON.stringify(stored));
       return stored;
