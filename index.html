@@ -1014,6 +1014,7 @@ function genDeg(){
   var rows=[], counter=gDegCounter(dateStr)+1;
 
   var inputs=document.querySelectorAll('#deg-table input[data-dir]');
+  var ub1=SDEG.cli==='supervaquita'?13:6,ub2=SDEG.cli==='supervaquita'?16:8;
   inputs.forEach(function(inp){
     var qty=parseInt(inp.value)||0;
     if(qty===0)return;
@@ -1028,9 +1029,9 @@ function genDeg(){
       'Descripcion':'ZARZAMORA FRESCA 125G',
       'No de orden de compra':'DEGUSTACION',
       'Nota':nota,
-      'Ubicacion *':6,
+      'Ubicacion *':ub1,
       'Direccion de envio':d.idDir,
-      'Ubicacion de linea':6,
+      'Ubicacion de linea':ub1,
       'DEPARTAMENTO':'',
       'Articulo ID':437,
       'Numero de serie/lote':'',
@@ -1045,9 +1046,9 @@ function genDeg(){
       'Descripcion':'ZARZAMORA FRESCA 125G',
       'No de orden de compra':'DEGUSTACION',
       'Nota':nota,
-      'Ubicacion *':8,
+      'Ubicacion *':ub2,
       'Direccion de envio':d.idDir,
-      'Ubicacion de linea':8,
+      'Ubicacion de linea':ub2,
       'DEPARTAMENTO':'',
       'Articulo ID':1110,
       'Numero de serie/lote':'',
