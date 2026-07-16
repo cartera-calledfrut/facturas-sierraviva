@@ -315,6 +315,8 @@ function selectCli(key){
   mkClientGrid('cgrid',selectCli,key);
   var existing=document.getElementById('cencosud-form-panel');
   if(existing)existing.remove();
+  var existingSV=document.getElementById('supervaquita-form-panel');
+  if(existingSV)existingSV.remove();
   var pending=document.getElementById('pending-notice');
   if(pending)pending.remove();
   var m=gM(),c=m[key];
@@ -564,6 +566,8 @@ function renderCencosudForm(){
   var m=gM(), c=m['cencosud'];
   var existing=document.getElementById('cencosud-form-panel');
   if(existing)existing.remove();
+  var existingSV=document.getElementById('supervaquita-form-panel');
+  if(existingSV)existingSV.remove();
   var panel=document.createElement('div');panel.className='panel';panel.id='cencosud-form-panel';
   var ph=document.createElement('div');ph.className='ph';
   var lbl=document.createElement('span');lbl.className='pl';lbl.textContent='Orden Manual Cencosud';
