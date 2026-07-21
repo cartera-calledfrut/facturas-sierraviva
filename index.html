@@ -433,8 +433,23 @@ function parseExitoDEP(rows){
     return acc;
   },[]);
 }
+function parseOlimpicaCiudad(rows){
+  return rows.reduce(function(acc,row){
+    var vals=Object.values(row);
+    var ciudad=vals[0],codigo=vals[1],nombre=vals[2],oc=vals[3];
+    var qty125=parseFloat(vals[4])||0,qty250=parseFloat(vals[5])||0;
+    if(!ciudad||String(nombre||'').trim().toUpperCase()==='TOTAL')return acc;
+    if(!codigo||isNaN(parseInt(codigo)))return acc;
+    if(qty125<=0&&qty250<=0)return acc;
+    var pc=String(parseInt(codigo)),ord=String(oc||'').trim();
+    if(qty125>0)acc.push({id:pc+ord+'125',pc:pc,pn:String(nombre).trim(),ord:ord,u:'125GR',d:'ZARZAMORA FRESCA 125G',q:parseInt(qty125)});
+    if(qty250>0)acc.push({id:pc+ord+'250',pc:pc,pn:String(nombre).trim(),ord:ord,u:'250GR',d:'ZARZAMORA FRESCA 250G',q:parseInt(qty250)});
+    return acc;
+  },[]);
+}
 function parseOlimpica(rows){
   // Auto-deteccion: formato nuevo tiene columna 'NEG', formato anterior tiene 'Documento compras'
+  if(rows.length && rows[0]['CIUDAD']!==undefined) return parseOlimpicaCiudad(rows);
   if(rows.length && rows[0]['NEG'] !== undefined) return parseOlimpicaNueva(rows);
   return rows.reduce(function(acc,row){
     var doc=row['Documento compras'],cen=row['Centro'],txt=row['Texto breve'],qty=row['Cantidad de pedido'];
