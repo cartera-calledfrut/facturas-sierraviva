@@ -389,6 +389,7 @@ function handleFile(file){
 // -- PARSERS --
 function parseExito(rows){
   // Auto-deteccion: formato nuevo tiene columna 'Plu' numerica, formato anterior tiene 'Desc Plu'
+  if(rows.length && rows[0]['ALMACEN']!==undefined) return parseExitoAlmacen(rows);
   if(rows.length && rows[0]['DEP']!==undefined && rows[0]['CANTD']!==undefined) return parseExitoDEP(rows);
   if(rows.length && rows[0]['Plu']!==undefined) return parseExitoNueva(rows);
   return rows.reduce(function(acc,row){
@@ -419,6 +420,20 @@ function parseExitoNueva(rows){
   },[]);
 }
 
+function parseExitoAlmacen(rows){
+  return rows.reduce(function(acc,row){
+    var vals=Object.values(row);
+    var dep=vals[0],nombre=vals[1],oc=vals[2];
+    var qty125=parseFloat(vals[3])||0,qty250=parseFloat(vals[4])||0;
+    if(!dep||isNaN(parseInt(dep)))return acc;
+    if(String(nombre||'').trim().toUpperCase()==='TOTAL')return acc;
+    if(qty125<=0&&qty250<=0)return acc;
+    var pc=String(parseInt(dep)),ds=pc.padStart(4,'0'),ord=String(oc||'').trim();
+    if(qty125>0)acc.push({id:ds+ord,pc:pc,pn:String(nombre).trim(),ord:ord,u:'125GR',d:'ZARZAMORA FRESCA 125G',q:parseInt(qty125)});
+    if(qty250>0)acc.push({id:ds+ord+'250',pc:pc,pn:String(nombre).trim(),ord:ord,u:'250GR',d:'ZARZAMORA FRESCA 250G',q:parseInt(qty250)});
+    return acc;
+  },[]);
+}
 function parseExitoDEP(rows){
   return rows.reduce(function(acc,row){
     var dep=row['DEP'],plu=row['PLUS'],qty=row['CANTD'],ord=row['N:ORDEN'];
