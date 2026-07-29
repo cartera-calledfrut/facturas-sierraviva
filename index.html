@@ -428,9 +428,9 @@ function parseExitoAlmacen(rows){
     if(!dep||isNaN(parseInt(dep)))return acc;
     if(String(nombre||'').trim().toUpperCase()==='TOTAL')return acc;
     if(qty125<=0&&qty250<=0)return acc;
-    var pc=String(parseInt(dep)),ds=pc.padStart(4,'0'),ord=String(oc||'').trim(),id=ds+ord;
-    if(qty125>0)acc.push({id:id,pc:pc,pn:String(nombre).trim(),ord:ord,u:'125GR',d:'ZARZAMORA FRESCA 125G',q:parseInt(qty125)});
-    if(qty250>0)acc.push({id:id,pc:pc,pn:String(nombre).trim(),ord:ord,u:'250GR',d:'ZARZAMORA FRESCA 250G',q:parseInt(qty250)});
+    var pc=String(parseInt(dep)),ds=pc.padStart(4,'0'),os=String(parseInt(oc)||0).padStart(6,'0'),ord=ds+os;
+    if(qty125>0)acc.push({id:ord,pc:pc,pn:String(nombre).trim(),ord:ord,u:'125GR',d:'ZARZAMORA FRESCA 125G',q:parseInt(qty125)});
+    if(qty250>0)acc.push({id:ord,pc:pc,pn:String(nombre).trim(),ord:ord,u:'250GR',d:'ZARZAMORA FRESCA 250G',q:parseInt(qty250)});
     return acc;
   },[]);
 }
